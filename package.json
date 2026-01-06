@@ -1,0 +1,17 @@
+{
+  "name": "mongo-db-demo",
+  "version": "1.0.0",
+  "description": "MongoDB demo covering basic and intermediate concepts",
+  "main": "demo.js",
+  "scripts": {
+    "start": "node demo.js",
+    "dev": "node --watch demo.js"
+  },
+  "dependencies": {
+    "mongodb": "^4.17.2",
+    "dotenv": "^16.3.1"
+  },
+  "keywords": ["mongodb", "demo", "nodejs"],
+  "author": "",
+  "license": "MIT"
+} 
