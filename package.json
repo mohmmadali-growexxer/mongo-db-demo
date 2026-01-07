@@ -4,14 +4,17 @@
   "description": "MongoDB demo covering basic and intermediate concepts",
   "main": "demo.js",
   "scripts": {
-    "start": "node demo.js",
-    "dev": "node --watch demo.js"
+    "start": "node server.js",
+    "demo": "node demo.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "mongodb": "^4.17.2",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "express": "^4.19.2",
+    "ejs": "^3.1.9"
   },
   "keywords": ["mongodb", "demo", "nodejs"],
   "author": "",
   "license": "MIT"
-} 
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>All Posts</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <%- include('navbar.ejs') %>
+    <h1>All Posts</h1>
+    <!-- Add Post Globally for Any User -->
+    <form id="add-post-global" class="add-post-form" style="max-width: 840px; margin: 0 auto 2em auto; background: #fffbe7; border:2px solid #fba834; border-radius:12px; padding:1.3em; box-shadow:0 3px 12px #eee; display:flex; gap:0.8em; align-items:center;">
+      <select name="userId" required style="min-width:120px;">
+        <option value="">Choose user...</option>
+        <% users.forEach(function(user) { %>
+          <option value="<%= user._id %>"><%= user.name %></option>
+        <% }); %>
+      </select>
+      <input type="text" name="title" placeholder="Title" required maxlength="48" style="flex:2"> 
+      <textarea name="body" placeholder="Body" maxlength="300" required style="flex:3"></textarea>
+      <button class="add-btn" type="submit">Add Post</button>
+    </form>
+    <div class="cards">
+    <% posts.forEach(function(post) { %>
+      <div class="card">
+        <div class="user-title"><%= post.title %></div>
+        <div class="info"><b>By:</b> <%= post.userName || 'Unknown' %></div>
+        <div class="post"><%= post.body %></div>
+        <form class="assign-form" data-postid="<%= post._id %>">
+          <label>Assign to user:</label>
+          <select name="userId" required>
+            <option value="">--Select User--</option>
+            <% users.forEach(function(user) { %>
+              <option value="<%= user._id %>" <%= (String(post.userId)===String(user._id))?'selected':'' %>><%= user.name %></option>
+            <% }); %>
+          </select>
+          <button class="add-btn" type="submit">Assign</button>
+        </form>
+      </div>
+    <% }); %>
+    </div>
+    <script>
+      document.getElementById('add-post-global').onsubmit = async function(e) {
+        e.preventDefault();
+        const userId = this.userId.value;
+        const title = this.title.value;
+        const body = this.body.value;
+        const res = await fetch('/api/posts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId, title, body })
+        });
+        if (res.ok) location.reload();
+        else alert('Failed to add post');
+      }
+      document.querySelectorAll('.assign-form').forEach(form => {
+        form.onsubmit = async e => {
+          e.preventDefault();
+          const postId = form.getAttribute('data-postid');
+          const userId = form.userId.value;
+          const res = await fetch(`/api/posts/${postId}/assign`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId })
+          });
+          if (res.ok) location.reload();
+          else alert('Failed to assign post');
+        }
+      });
+    </script>
+  </body>
+</html>

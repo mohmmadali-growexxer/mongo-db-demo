@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>All Users</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <%- include('navbar.ejs') %>
+    <h1>All Users</h1>
+    <!-- Add New User Form -->
+    <form id="add-user-form" class="add-post-form" style="max-width:440px;margin:0 auto 2.5em auto;background:#fffbe7;border:2px solid #e76f51;border-radius:12px;padding:1.2em 1em;box-shadow:0 2px 8px #fdd5cf;display:flex;gap:0.7em;align-items:center;flex-wrap:wrap;">
+      <input type="text" name="name" placeholder="Name" required maxlength="32" style="flex:2;min-width:200px;">
+      <input type="email" name="email" placeholder="Email" required maxlength="64" style="flex:2;min-width:210px;">
+      <input type="number" name="age" placeholder="Age" min="1" max="110" required style="min-width:180px;">
+      <input type="text" name="street" placeholder="Street" maxlength="50" style="flex:3;min-width:180px;">
+      <input type="text" name="city" placeholder="City" maxlength="32" style="flex:1.1;min-width:180px;">
+      <input type="text" name="zipCode" placeholder="Zip Code" maxlength="15" style="flex:1;min-width:180px;">
+      <button class="add-btn" type="submit" style="flex:0 0 auto;">Add User</button>
+    </form>
+    <div class="cards">
+    <% users.forEach(function(user) { %>
+      <div class="card">
+        <div class="user-title"><%= user.name %></div>
+        <div class="info">Email: <%= user.email %>, Age: <%= user.age %>, City: <%= user.address && user.address.city %></div>
+        <div class="posts">
+          <strong>Posts:</strong>
+          <% if (user.posts.length > 0) { %>
+            <% user.posts.forEach(function(post) { %>
+              <div class="post">
+                <div><b>Title:</b> <%= post.title %></div>
+                <div><b>Body:</b> <%= post.body %></div>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <div class="post">No posts yet.</div>
+          <% } %>
+        </div>
+      </div>
+    <% }); %>
+    </div>
+    <script>
+      document.getElementById('add-user-form').onsubmit = async function(e) {
+        e.preventDefault();
+        const form = this;
+        const user = {
+          name: form.name.value,
+          email: form.email.value,
+          age: parseInt(form.age.value),
+          address: {
+            street: form.street.value,
+            city: form.city.value,
+            zipCode: form.zipCode.value
+          }
+        };
+        const res = await fetch('/api/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(user)
+        });
+        if (res.ok) location.reload();
+        else alert('Failed to add user, maybe email already exists?');
+      }
+    </script>
+  </body>
+</html>

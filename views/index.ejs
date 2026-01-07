@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home | User & Post Relationship Demo</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <%- include('navbar.ejs') %>
+    <header style="background:#333b69; color:#fff; border-radius:12px; box-shadow:0 2px 18px #abbaf399; padding:1.3em 3em 1.8em 3em; text-align:center; margin-bottom:2.5em;">
+      <h1 style="margin-top:0; font-size:2.3em; font-family: 'Segoe UI', Arial,sans-serif; letter-spacing:0.03em; color:#fba834;">Mongo Relationships Home Demo</h1>
+      <p style="font-size:1.2em; max-width:600px; margin:0 auto; color:#fffbe7;">A modern UI for managing Users and their Posts in MongoDB.<br>Try adding, deleting, or assigning posts, and explore the navigation bar above!</p>
+    </header>
+    <div class="cards">
+    <% users.forEach(function(user) { %>
+      <div class="card">
+        <div class="user-title"><%= user.name %></div>
+        <div class="info">Email: <%= user.email %>, Age: <%= user.age %>, City: <%= user.address && user.address.city %></div>
+        <div class="posts">
+          <strong>Posts:</strong>
+          <% if (user.posts.length > 0) { %>
+            <% user.posts.forEach(function(post) { %>
+              <div class="post" data-userid="<%= user._id %>" data-postid="<%= post._id %>">
+                <button class="del" title="Delete post">×</button>
+                <div><b>Title:</b> <%= post.title %></div>
+                <div><b>Body:</b> <%= post.body %></div>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <div class="post">No posts yet.</div>
+          <% } %>
+        </div>
+        <form class="add-post-form" data-userid="<%= user._id %>">
+          <input type="text" name="title" placeholder="Title" required maxlength="48">
+          <textarea name="body" placeholder="Body" maxlength="300" required></textarea>
+          <button class="add-btn" type="submit">Add Post</button>
+        </form>
+      </div>
+    <% }); %>
+    </div>
+    <script>
+    document.querySelectorAll('.add-post-form').forEach(form => {
+      form.onsubmit = async e => {
+        e.preventDefault();
+        const userId = form.getAttribute('data-userid');
+        const title = form.title.value;
+        const body = form.body.value;
+        const res = await fetch('/api/posts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId, title, body })
+        });
+        if (res.ok) location.reload();
+        else alert('Failed to add post');
+      }
+    });
+    document.querySelectorAll('.del').forEach(btn => {
+      btn.onclick = async e => {
+        const postDiv = btn.closest('.post');
+        const postId = postDiv.getAttribute('data-postid');
+        if (!confirm('Delete this post?')) return;
+        const res = await fetch(`/api/posts/${postId}`, {
+          method: 'DELETE'
+        });
+        if (res.ok) location.reload();
+        else alert('Failed to delete post');
+      }
+    });
+    </script>
+  </body>
+</html>

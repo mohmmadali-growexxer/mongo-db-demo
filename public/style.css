@@ -1,0 +1,148 @@
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 2em;
+  background: #f1f5fb;
+  color: #1d3557;
+}
+h1 {
+  color: #457b9d;
+  text-align: center;
+}
+.card {
+  background: #fff;
+  border-radius: 18px;
+  margin: 2em auto;
+  padding: 2em;
+  max-width: 520px;
+  box-shadow: 0 6px 24px rgba(41, 128, 185, 0.16);
+  transition: box-shadow 0.2s;
+}
+.card:hover {
+  box-shadow: 0 4px 24px rgba(41, 128, 185, 0.24);
+}
+.card .user-title {
+  color: #e76f51;
+  font-size: 1.7em;
+  font-weight: 600;
+  margin-bottom: 0.1em;
+}
+.card .info {
+  color: #7a6eaa;
+  margin-bottom: 1em;
+}
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5em;
+  justify-content: center;
+}
+.posts {
+  margin-bottom: 0.5em;
+  margin-top: 0.8em;
+}
+.post {
+  border: 1px dashed #a8dadc;
+  background: #f6fafb;
+  border-radius: 8px;
+  padding: 0.7em 1em;
+  margin-bottom: 0.7em;
+  position: relative;
+}
+.post .del {
+  position: absolute;
+  right: 14px;
+  top: 10px;
+  background: #e63946;
+  color: #fff;
+  border: none;
+  border-radius: 15px;
+  font-size: 1em;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  box-shadow: 1px 1px 7px #fff1;
+  transition: background 0.15s;
+}
+.post .del:hover { background: #d90429; }
+.add-post-form {
+  margin-top: 1em;
+  display: flex;
+  gap: 0.5em;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+input[type="text"], input[type="email"], input[type="number"], textarea {
+  flex:1;
+  font-size: 1em;
+  padding: 0.59em 0.97em;
+  border-radius: 10px;
+  border: 2px solid #457b9d;
+  outline: none;
+  box-sizing: border-box;
+  margin-top:3px;
+  background: #fafcff;
+  color:#333b69;
+  box-shadow: 0 1px 6px #e2e9f1a0;
+  transition: border 0.16s, box-shadow 0.17s;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+input[type="email"] {
+  border: 2px solid #fba834;
+  background: #fffaee;
+}
+input[type="number"] {
+  border:2px solid #e76f51;
+  background: #fff7f3;
+  color:#c14019;
+  font-weight: 600;
+  width: 85px!important;
+  max-width: 120px;
+  min-width:66px;
+}
+input[type="text"]:focus, input[type="email"]:focus, input[type="number"]:focus, textarea:focus {
+  border: 2.5px solid #3368cd;
+  box-shadow: 0 2px 10px #bacfff66;
+}
+textarea {
+  height: 2.7em;
+  min-width: 70px;
+  resize: vertical;
+}
+.add-btn {
+  background: #457b9d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6em 1.3em;
+  font-weight: bold;
+  font-size: 1.1em;
+  cursor: pointer;
+  box-shadow: 1px 1px 5px #8ecae6a0;
+  transition: background 0.2s;
+}
+.add-btn:hover { background: #1d3557; }
+select, .assign-form select {
+  appearance: none;
+  background: #fba834;
+  color: #1d3557;
+  border: 2px solid #457b9d;
+  padding: 0.5em 1.7em 0.5em 0.9em;
+  border-radius: 8px;
+  font-size: 1.09em;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin-right: 0.4em;
+  max-width: 210px;
+  min-width: 120px;
+  font-weight: 600;
+  box-shadow: 0 1px 6px #cfdbfc44;
+  cursor: pointer;
+  transition: border 0.16s, box-shadow 0.18s;
+}
+select:focus {
+  outline: 2px solid #457b9d;
+}
+.assign-form label {
+  margin-right: 0.55em;
+  color: #457b9d;
+  font-weight: 600;
+}
